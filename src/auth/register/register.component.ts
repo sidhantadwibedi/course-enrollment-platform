@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
   <input formControlName="email" placeholder="Email" />
   <div *ngIf="email.invalid && email.touched" style="color:red;">Enter a valid email</div>
 
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" />
   <div
     *ngIf="
-      registerForm.errors?.['passwordMismatch'] &&
+      registrationForm.errors?.['passwordMismatch'] &&
       confirmPassword.touched &&
       confirmPassword.value !== ''
     "
@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
     Passwords do not match
   </div>
 
-  <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  <button type="submit" [disabled]="registrationForm.invalid">Register</button>
 
   <div class="switch-auth">
     <span>Already have an account?</span>
@@ -96,10 +96,10 @@ import { Router } from '@angular/router';
   `]
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
+  registrationForm: FormGroup;
 
   constructor(private fb: FormBuilder , private router: Router) {
-    this.registerForm = this.fb.group(
+    this.registrationForm = this.fb.group(
       {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required]],
@@ -117,15 +117,15 @@ export class RegisterComponent {
   }
 
   get email() {
-    return this.registerForm.get('email')!;
+    return this.registrationForm.get('email')!;
   }
 
   get password() {
-    return this.registerForm.get('password')!;
+    return this.registrationForm.get('password')!;
   }
 
   get confirmPassword() {
-    return this.registerForm.get('confirmPassword')!;
+    return this.registrationForm.get('confirmPassword')!;
   }
 
   goToLogin() {
@@ -133,8 +133,8 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-        const { email, password } = this.registerForm.value;
+    if (this.registrationForm.valid) {
+        const { email, password } = this.registrationForm.value;
     
         const users = JSON.parse(localStorage.getItem('users') || '[]');
     
